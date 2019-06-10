@@ -1,19 +1,21 @@
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.RandomAccess;
 
-public class DIYarrayList<T> implements List<T> {
+public class DIYarrayList<T> implements List<T>, RandomAccess {
 
     private static final int DEFAULT_CAPACITY = 10;
+
+    private static final String STR_UNSUPPORTED_OPERATION = "The requested operation is not supported.";
 
     private int size;
     private Object[] elements;
 
     public DIYarrayList() {
-        this.elements = new Object[DEFAULT_CAPACITY];
+        elements = new Object[DEFAULT_CAPACITY];
     }
 
     @Override
@@ -42,27 +44,27 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return Arrays.copyOf(elements, size);
     }
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        return null;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
@@ -76,22 +78,18 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        return false;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return false;
-    }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public void clear() {
-
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
@@ -111,12 +109,12 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public T remove(int index) {
-        return null;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
@@ -138,17 +136,17 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public ListIterator<T> listIterator() {
-        return null;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     @Override
     public ListIterator<T> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
     private int newCapacity() {
@@ -157,6 +155,6 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 }
