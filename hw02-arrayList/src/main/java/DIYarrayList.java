@@ -44,7 +44,25 @@ public class DIYarrayList<T> implements List<T>, RandomAccess {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
+        return new Iter();
+    }
+
+    private class Iter implements Iterator<T> {
+        int cursor;
+
+        Iter() {
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cursor < size;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public T next() {
+            return (T) elements[cursor++];
+        }
     }
 
     @Override
@@ -81,6 +99,11 @@ public class DIYarrayList<T> implements List<T>, RandomAccess {
         throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
+    }
+
 
     @Override
     public boolean retainAll(Collection<?> c) {
@@ -93,11 +116,13 @@ public class DIYarrayList<T> implements List<T>, RandomAccess {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         return (T) elements[index];
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T set(int index, T element) {
         if (index > size) {
             throw new ArrayIndexOutOfBoundsException();
@@ -119,15 +144,15 @@ public class DIYarrayList<T> implements List<T>, RandomAccess {
 
     @Override
     public int indexOf(Object o) {
-        if (o == null){
+        if (o == null) {
             for (int i = 0; i < size; i++) {
-                if (elements[i] == null){
+                if (elements[i] == null) {
                     return i;
                 }
             }
         }
         for (int i = 0; i < size; i++) {
-            if (elements[i].equals(0)){
+            if (elements[i].equals(0)) {
                 return i;
             }
         }
@@ -141,7 +166,7 @@ public class DIYarrayList<T> implements List<T>, RandomAccess {
 
     @Override
     public ListIterator<T> listIterator() {
-        throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
+        return new ListIter(0);
     }
 
     @Override
@@ -149,12 +174,56 @@ public class DIYarrayList<T> implements List<T>, RandomAccess {
         throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
 
+    private class ListIter extends Iter implements ListIterator<T> {
+        ListIter(int index) {
+            super();
+            cursor = index;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return cursor != 0;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public T previous() {
+            return (T) elements[--cursor];
+        }
+
+        @Override
+        public int nextIndex() {
+            return cursor;
+        }
+
+        @Override
+        public int previousIndex() {
+            return cursor - 1;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        @Override
+        public void set(T t) {
+
+        }
+
+        @Override
+        public void add(T t) {
+
+        }
+    }
+
     private int newCapacity() {
-        return size<<1;
+        return size << 1;
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException(STR_UNSUPPORTED_OPERATION);
     }
+
 }

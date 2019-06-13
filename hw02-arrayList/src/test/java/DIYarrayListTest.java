@@ -1,24 +1,19 @@
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DIYarrayListTest {
 
-    private List<Integer> list;
-
-    @Before
-    public void init() {
-        list = new DIYarrayList<>();
-    }
-
     @Test
     public void size() {
+        List<Integer> list = new DIYarrayList<>();
         list.add(1);
         list.add(10);
         assertEquals(2, list.size());
@@ -26,6 +21,7 @@ public class DIYarrayListTest {
 
     @Test
     public void isEmpty() {
+        List<Integer> list = new DIYarrayList<>();
         assertTrue(list.isEmpty());
         list.add(1);
         assertFalse(list.isEmpty());
@@ -33,27 +29,56 @@ public class DIYarrayListTest {
 
     @Test
     public void add() {
-        assertTrue(list.add(1));
-        assertEquals(1, list.size());
+        List<Integer> list = new DIYarrayList<>();
+        final int size = 30;
+        for (int i = 0; i < size; i++) {
+            assertTrue(list.add(i));
+        }
+        assertEquals(size, list.size());
     }
 
     @Test
     public void addAll() {
-        list.add(1);
-        list.add(2);
-        list.add(3);
+        int size = 31;
+        DIYarrayList<Integer> list = new DIYarrayList<>();
+        Integer[] arr = new Integer[size];
 
-        Collections.addAll(list, 4, 5, 6);
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-
+        for (int i = 0; i < 25; i++) {
+            list.add(i);
+            arr[i] = i;
         }
-//        assertArrayEquals();
+
+        for (int i = 25; i < size; i++) {
+            arr[i] = i;
+        }
+
+        Collections.addAll(list, 25, 26, 27, 28, 29, 30);
+
+        assertArrayEquals(list.toArray(), arr);
     }
 
     @Test
     public void copy() {
-//        Collections
+        List<String> dest = new DIYarrayList<>();
+        dest.add("ab");
+        dest.add("cd");
+        dest.add("ef");
+        dest.add("gh");
+        dest.add("ij");
+        dest.add("kl");
+        dest.add("mn");
+        dest.add("op");
+        dest.add("qr");
+        dest.add("st");
+        dest.add("uv");
+        dest.add("wx");
+        dest.add("yz");
+
+        dest.addAll(List.of("12", "34", "56", "78", "90", "ABC", "DEF", "GHI", "!"));
+
+        List<String> src = new DIYarrayList<>();
+        Collections.copy(dest, src);
+        assertIterableEquals(src, dest);
     }
 
     @Test
