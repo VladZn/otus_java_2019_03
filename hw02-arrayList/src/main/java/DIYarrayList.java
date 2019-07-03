@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class DIYarrayList<T> implements List<T> {
 
@@ -48,19 +49,26 @@ public class DIYarrayList<T> implements List<T> {
 
     private class Iter implements Iterator<T> {
         int cursor;
+        int lastRet = -1;
 
         Iter() {
         }
 
         @Override
         public boolean hasNext() {
-            return cursor < size;
+            return cursor < size();
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public T next() {
-            return (T) elements[cursor++];
+            if (cursor >= size()) {
+                throw new NoSuchElementException();
+            }
+            lastRet = cursor;
+            T nextElement = (T) get(cursor);
+            cursor++;
+            return nextElement;
         }
     }
 
@@ -207,12 +215,12 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public void set(T t) {
-
+            DIYarrayList.this.set(lastRet, t);
         }
 
         @Override
         public void add(T t) {
-
+            elements[++cursor] = t;
         }
     }
 

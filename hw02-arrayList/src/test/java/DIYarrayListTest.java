@@ -102,11 +102,13 @@ public class DIYarrayListTest {
     @Test
     public void sort() {
         Random random = new Random();
-        List<Integer> list = new DIYarrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < INITIAL_SIZE; i++) {
             list.add(random.nextInt(INITIAL_SIZE * 3));
         }
         Collections.sort(list);
-        System.out.println(list);
+        for (int i = 0; i < INITIAL_SIZE - 1; i++) {
+            assertTrue(list.get(i).compareTo(list.get(i + 1)) <= 0);
+        }
     }
 }
