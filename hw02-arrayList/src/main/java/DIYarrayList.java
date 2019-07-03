@@ -3,9 +3,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.RandomAccess;
 
-public class DIYarrayList<T> implements List<T>, RandomAccess {
+public class DIYarrayList<T> implements List<T> {
 
     private static final int DEFAULT_CAPACITY = 10;
 

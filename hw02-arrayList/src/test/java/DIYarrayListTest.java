@@ -2,14 +2,17 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DIYarrayListTest {
+    private static final int INITIAL_SIZE = 25;
 
     @Test
     public void size() {
@@ -30,7 +33,7 @@ public class DIYarrayListTest {
     @Test
     public void add() {
         List<Integer> list = new DIYarrayList<>();
-        final int size = 30;
+        final int size = INITIAL_SIZE;
         for (int i = 0; i < size; i++) {
             assertTrue(list.add(i));
         }
@@ -43,12 +46,12 @@ public class DIYarrayListTest {
         DIYarrayList<Integer> list = new DIYarrayList<>();
         Integer[] arr = new Integer[size];
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < INITIAL_SIZE; i++) {
             list.add(i);
             arr[i] = i;
         }
 
-        for (int i = 25; i < size; i++) {
+        for (int i = INITIAL_SIZE; i < size; i++) {
             arr[i] = i;
         }
 
@@ -58,31 +61,52 @@ public class DIYarrayListTest {
     }
 
     @Test
-    public void copy() {
-        List<String> dest = new DIYarrayList<>();
-        dest.add("ab");
-        dest.add("cd");
-        dest.add("ef");
-        dest.add("gh");
-        dest.add("ij");
-        dest.add("kl");
-        dest.add("mn");
-        dest.add("op");
-        dest.add("qr");
-        dest.add("st");
-        dest.add("uv");
-        dest.add("wx");
-        dest.add("yz");
-
-        dest.addAll(List.of("12", "34", "56", "78", "90", "ABC", "DEF", "GHI", "!"));
-
+    public void copyShouldThrowException() {
         List<String> src = new DIYarrayList<>();
+        src.add("A");
+        src.add("B");
+        src.add("C");
+
+        List<String> dest = new DIYarrayList<>();
+        dest.addAll(List.of("1", "2"));
+        assertThrows(IndexOutOfBoundsException.class, () -> Collections.copy(dest, src));
+    }
+
+    @Test
+    public void copy() {
+        List<String> src = new DIYarrayList<>();
+        src.add("ab");
+        src.add("cd");
+        src.add("ef");
+        src.add("gh");
+        src.add("ij");
+        src.add("kl");
+        src.add("mn");
+        src.add("op");
+        src.add("qr");
+        src.add("st");
+        src.add("uv");
+        src.add("wx");
+        src.add("yz");
+        src.addAll(List.of("12", "34", "56", "78", "90", "ABC", "DEF", "GHI", "!"));
+
+        List<String> dest = new DIYarrayList<>();
+        for (int i = 0; i < src.size(); i++) {
+            dest.add(String.valueOf(i));
+        }
+
         Collections.copy(dest, src);
         assertIterableEquals(src, dest);
     }
 
     @Test
     public void sort() {
-
+        Random random = new Random();
+        List<Integer> list = new DIYarrayList<>();
+        for (int i = 0; i < INITIAL_SIZE; i++) {
+            list.add(random.nextInt(INITIAL_SIZE * 3));
+        }
+        Collections.sort(list);
+        System.out.println(list);
     }
 }
