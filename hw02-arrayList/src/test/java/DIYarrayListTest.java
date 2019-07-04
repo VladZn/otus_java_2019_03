@@ -102,7 +102,7 @@ public class DIYarrayListTest {
     @Test
     public void sort() {
         Random random = new Random();
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new DIYarrayList<>();
         for (int i = 0; i < INITIAL_SIZE; i++) {
             list.add(random.nextInt(INITIAL_SIZE * 3));
         }
