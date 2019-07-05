@@ -21,6 +21,7 @@
     <modules>
         <module>hw01-maven</module>
         <module>hw02-arrayList</module>
+        <module>hw3-testingFramework</module>
     </modules>
 
     <dependencyManagement>
