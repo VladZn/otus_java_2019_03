@@ -2,20 +2,20 @@
 
 Написать свой тестовый фреймворк.
 
-Поддержать свои аннотации @annotation.Test, @annotation.Before, @annotation.After.
+Поддержать свои аннотации @annotation.Test, @annotation.BeforeEach, @annotation.AfterEach.
 
 Запускать вызовом статического метода с именем класса с тестами.
 
 Т.е. надо сделать:
-1. создать три аннотации - @annotation.Test, @annotation.Before, @annotation.After.
+1. создать три аннотации - @annotation.Test, @annotation.BeforeEach, @annotation.AfterEach.
 2. Создать класс-тест, в котором будут методы, отмеченные аннотациями.
 3. Создать "запускалку теста". На вход она должна получать имя класса с тестами.
 4. "Запускалка" должна в классе-тесте найти и запустить методы, отмеченные аннотациями.
 
 5. Алгоримт запуска должен быть такой:
-* метод annotation.Before
+* метод annotation.BeforeEach
 * метод annotation.Test
-* метод annotation.After
+* метод annotation.AfterEach
 
 для каждой такой "тройки" надо создать СВОЙ объект класса-теста.
 

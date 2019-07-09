@@ -1,5 +1,6 @@
-import annotation.After;
-import annotation.Before;
+import annotation.AfterEach;
+import annotation.BeforeEach;
+import annotation.BeforeAll;
 import annotation.Test;
 
 /**
@@ -8,16 +9,21 @@ import annotation.Test;
 public class RocketTest {
     private Rocket rocket;
 
-    @Before
-    public void setUp() {
-        rocket = new Rocket(0, 100, 30);
-        System.out.println("A rocket initialization");
+    @BeforeAll
+    public static void beforeAll() {
+        System.out.println("BeforeEach all method");
     }
 
-    @After
+    @BeforeEach
+    public void setUp() {
+        rocket = new Rocket(0, 100, 30);
+//        System.out.println("A rocket initialization");
+    }
+
+    @AfterEach
     public void tearDown() {
         rocket = null;
-        System.out.println("A rocket utilization");
+//        System.out.println("A rocket utilization");
     }
 
     @Test
@@ -27,9 +33,13 @@ public class RocketTest {
 
     }
 
-    @Test
+//    @Test
     public void takeOffTestExceptionExpected() {
         rocket.fillTank(20);
         rocket.takeOff();
+    }
+
+    public void shouldNotBeInvoked() {
+        System.out.println("Not annotated method");
     }
 }
