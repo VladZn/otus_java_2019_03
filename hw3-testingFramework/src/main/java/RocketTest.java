@@ -1,3 +1,4 @@
+import annotation.AfterAll;
 import annotation.AfterEach;
 import annotation.BeforeEach;
 import annotation.BeforeAll;
@@ -11,19 +12,22 @@ public class RocketTest {
 
     @BeforeAll
     public static void beforeAll() {
-        System.out.println("BeforeEach all method");
+        System.out.println("The very first method has been invoked.");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        System.out.println("The last one method has been invoked.");
     }
 
     @BeforeEach
     public void setUp() {
         rocket = new Rocket(0, 100, 30);
-//        System.out.println("A rocket initialization");
     }
 
     @AfterEach
     public void tearDown() {
         rocket = null;
-//        System.out.println("A rocket utilization");
     }
 
     @Test
@@ -33,13 +37,19 @@ public class RocketTest {
 
     }
 
-//    @Test
+    @Test
+    public void takeOffTest() {
+        rocket.fillTank(80);
+        rocket.takeOff();
+    }
+
+    @Test
     public void takeOffTestExceptionExpected() {
         rocket.fillTank(20);
         rocket.takeOff();
     }
 
-    public void shouldNotBeInvoked() {
-        System.out.println("Not annotated method");
+    public void testShouldNotBeInvoked() {
+        System.out.println("Not annotated method. If you see this message, this is an error.");
     }
 }

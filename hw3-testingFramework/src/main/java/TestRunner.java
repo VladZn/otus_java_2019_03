@@ -1,3 +1,5 @@
+import annotation.AfterAll;
+import annotation.AfterEach;
 import annotation.BeforeAll;
 import annotation.BeforeEach;
 import annotation.Test;
@@ -5,16 +7,16 @@ import annotation.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+
+import static java.lang.reflect.Modifier.isStatic;
 
 /**
  * @author V. Zinchenko
  */
 public class TestRunner {
+
     public static void main(String[] args) throws InvocationTargetException {
         try {
             run(RocketTest.class);
@@ -23,44 +25,55 @@ public class TestRunner {
         }
     }
 
-    private static void run(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static void run(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException,
+            InvocationTargetException, InstantiationException {
         Constructor<?> constructor = clazz.getConstructor();
-//        Object object = constructor.newInstance();
 
         List<Method> testMethods = new ArrayList<>();
         List<Method> beforeMethods = new ArrayList<>();
         List<Method> afterMethods = new ArrayList<>();
 
-        //Stream.of(clazz.getDeclaredMethods()).forEach(method -> System.out.println(method.getName() + " " + method.getModifiers()));
+        Method afterAllMethod = null;
 
-        for (Method method: clazz.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(BeforeAll.class)){
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(BeforeAll.class) && isStatic(method.getModifiers())) {
                 method.invoke(null);
             } else if (method.isAnnotationPresent(Test.class)) {
                 testMethods.add(method);
             } else if (method.isAnnotationPresent(BeforeEach.class)) {
                 beforeMethods.add(method);
+            } else if (method.isAnnotationPresent(AfterEach.class)) {
+                afterMethods.add(method);
+            } else if (method.isAnnotationPresent(AfterAll.class)) {
+                afterAllMethod = method;
             }
         }
 
         for (Method method : testMethods) {
             try {
-                Object object = constructor.newInstance();
-                beforeMethods.forEach(m -> {
-                    try {
-                        m.invoke(object);
-                        System.out.println(m.getName());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                });
+                Object obj = constructor.newInstance();
+                invokeMethods(beforeMethods, obj);
+                method.invoke(obj);
+                System.out.println(method.getName());
+                invokeMethods(afterMethods, obj);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (afterAllMethod != null && isStatic(afterAllMethod.getModifiers())) {
+            afterAllMethod.invoke(null);
+        }
+    }
+
+    private static void invokeMethods(List<Method> methods, Object object) {
+        methods.forEach(method -> {
+            try {
                 method.invoke(object);
                 System.out.println(method.getName());
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 }
