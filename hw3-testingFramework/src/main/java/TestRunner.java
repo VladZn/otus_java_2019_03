@@ -33,11 +33,12 @@ public class TestRunner {
         List<Method> beforeMethods = new ArrayList<>();
         List<Method> afterMethods = new ArrayList<>();
 
+        Method beforeAllMethod = null;
         Method afterAllMethod = null;
 
         for (Method method : clazz.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(BeforeAll.class) && isStatic(method.getModifiers())) {
-                method.invoke(null);
+            if (method.isAnnotationPresent(BeforeAll.class)) {
+                beforeAllMethod = method;
             } else if (method.isAnnotationPresent(Test.class)) {
                 testMethods.add(method);
             } else if (method.isAnnotationPresent(BeforeEach.class)) {
@@ -49,15 +50,20 @@ public class TestRunner {
             }
         }
 
+        if (beforeAllMethod != null && isStatic(beforeAllMethod.getModifiers())) {
+            beforeAllMethod.invoke(null);
+        }
+
         for (Method method : testMethods) {
+            Object obj = constructor.newInstance();
             try {
-                Object obj = constructor.newInstance();
                 invokeMethods(beforeMethods, obj);
                 method.invoke(obj);
                 System.out.println(method.getName());
-                invokeMethods(afterMethods, obj);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
+            } finally {
+                invokeMethods(afterMethods, obj);
             }
         }
 
