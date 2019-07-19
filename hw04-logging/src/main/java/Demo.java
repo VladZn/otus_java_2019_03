@@ -4,5 +4,6 @@ public class Demo {
         Calculator calculator = (Calculator) ProxyFactory.createClass(new CalculatorImpl());
         calculator.sum(2, 3);
         calculator.sub(5, 4);
+        calculator.sub(3f, 1f);
     }
 }
