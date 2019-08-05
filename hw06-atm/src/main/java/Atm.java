@@ -1,41 +1,46 @@
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author V. Zinchenko
  */
-public class Atm implements Transaction {
-    private final List<CashCartridge> cashCartridges;
+public class Atm implements AtmService {
+    private final Set<CashCartridge> cashCartridges = new TreeSet<>();
     private BigDecimal balance = BigDecimal.ZERO;
 
-    public Atm(List<CashCartridge> cashCartridges) {
-        this.cashCartridges = cashCartridges;
-        recountBalance();
+    public Atm(Set<CashCartridge> cartridges) {
+        cashCartridges.addAll(cartridges);
     }
 
-    private void recountBalance() {
+    private void recalculateBalance() {
         balance = BigDecimal.valueOf(cashCartridges.stream()
                 .mapToInt(cashCartridge -> cashCartridge.getBanknote().getValue() * cashCartridge.getAmount())
                 .sum());
     }
 
-    public BigDecimal getBalance() {
+    public BigDecimal checkBalance() {
+        recalculateBalance();
         return balance;
     }
 
-    public void loadCashCartridge(CashCartridge cashCartridge) {
-        cashCartridges.add(cashCartridge);
-        recountBalance();
+    @Override
+    public boolean loadCashCartridge(CashCartridge cartridge) {
+        return cashCartridges.add(cartridge);
     }
 
+    @Override
+    public boolean removeCartridge(Banknote banknote) {
+        return cashCartridges.remove(getCartridgeByBanknote(banknote));
+    }
+
+    @Override
     public void deposit(Banknote banknote, int amount) {
-        CashCartridge cashCartridge = getCassetteByBanknote(banknote);
+        CashCartridge cashCartridge = getCartridgeByBanknote(banknote);
         cashCartridge.setAmount(cashCartridge.getAmount() + amount);
-        recountBalance();
     }
 
-    private CashCartridge getCassetteByBanknote(Banknote banknote) {
+    private CashCartridge getCartridgeByBanknote(Banknote banknote) {
         return cashCartridges.stream()
                 .filter(cst -> cst.getBanknote().equals(banknote))
                 .findAny()
@@ -43,10 +48,10 @@ public class Atm implements Transaction {
 //                .orElseThrow();
     }
 
+    @Override
     public void withdraw(int sum) {
         int remainder = sum;
         int withdraw = 0;
-        cashCartridges.sort(Collections.reverseOrder());
         for (CashCartridge cashCartridge : cashCartridges) {
             if ((withdraw = remainder / cashCartridge.getBanknote().getValue()) > 0) {
                 System.out.println("remainder = " + remainder);
@@ -55,15 +60,11 @@ public class Atm implements Transaction {
                 remainder = remainder - cashCartridge.getBanknote().getValue() * withdraw;
             }
         }
-        recountBalance();
     }
 
-    @Override
-    public void execute(Operation operation) {
+//    @Override
+//    public void execute(Operation operation) {
 //        operation.run();
-    }
-
-//    public void removeCassette(Cassette cassette) {
-//        cassettes.remove()
 //    }
+
 }

@@ -24,7 +24,15 @@ public class CashCartridge implements Comparable<CashCartridge> {
 
     @Override
     public int compareTo(CashCartridge other) {
-        if (this.banknote.getValue() > other.getBanknote().getValue()) return 1;
-        else return (this.banknote.getValue() < other.getBanknote().getValue()) ? -1 : 0;
+        if (this.banknote.getValue() < other.getBanknote().getValue()) return 1;
+        else return (this.banknote.getValue() > other.getBanknote().getValue()) ? -1 : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "banknote=" + banknote.getValue() +
+                ", amount=" + amount +
+                '}';
     }
 }
