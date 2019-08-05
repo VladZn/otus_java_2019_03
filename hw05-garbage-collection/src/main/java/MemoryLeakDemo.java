@@ -18,9 +18,9 @@ a good indication that GC overhead is low. One should aim for high throughput.
 Duration: 1 min 47 sec 959 ms
 
 Generation	              |  Allocated  |	Peak
-Young Generation	      |  36 mb	    |   25 mb
-Old Generation	          |  476 mb	    |  447 mb
-Humongous	              |  n/a	    |   98 mb
+Young Generation	      |  36 mb	    |   25.00 mb
+Old Generation	          |  476 mb	    |  447.00 mb
+Humongous	              |  n/a	    |   98.00 mb
 Meta Space	              |  1.01 gb	|   13.44 mb
 Young + Old + Meta space  |	 1.51 gb	|  525.44 mb
 
@@ -63,9 +63,9 @@ Avg promotion rate 	    1.28 mb/sec
 
 Cause	                        Count	Avg Time	    Max Time	    Total Time	            Time %
 Full GC - Allocation Failure 	79	    1 sec 963 ms	3 sec 920 ms	2 min 35 sec 100 ms	    82.32%
-Others	                        23	    n/a	            n/a	            24 sec 500 ms	         13.0%
+Others	                        23	    n/a	            n/a	            24 sec 500 ms	        13.00%
 Allocation Failure 	            5	    1 sec 762 ms	2 sec 990 ms	8 sec 810 ms	         4.68%
-Total	                        107	    n/a	            n/a	            3 min 8 sec 410 ms	    100.0%
+Total	                        107	    n/a	            n/a	            3 min 8 sec 410 ms	   100.00%
 
 3. ParallelGC
 
@@ -90,12 +90,23 @@ Avg promotion rate 	    507 kb/sec
 Cause	            Count	Avg Time	    Max Time	    Total Time	            Time %
 Ergonomics 	        479	    1 sec 188 ms	4 sec 760 ms	9 min 29 sec 60 ms	     99.75%
 Allocation Failure 	3	    467 ms	        720 ms	              1 sec 400 ms	      0.25%
-Others	            n/a	    n/a	            n/a	                     0.0610 ms	      0.0%
-Total	            482	    n/a	            n/a	            9 min 30 sec 460 ms	    100.0%
+Others	            n/a	    n/a	            n/a	                     0.0610 ms	      0.00%
+Total	            482	    n/a	            n/a	            9 min 30 sec 460 ms	    100.00%
 
-Считаю G1 победителем -  наибольшая пропускная способность, меньше всего пауз, наименьшее среднее время паузы сборки
+-------------------------------------------------------------------------------
+Summary.
+
+Parallel: у данного сборщика было больше всего запусков сборок, несмотря на то, что приложение так и не свалилось с ООМ,
+он показал наименьшую пропускную способность. Средняя продолжительность пауз меньше, чем у CMS, но больше, чем у G1. Но
+этот показатель нивелируется малой пропускной способностью - среднее время паузы меньше, но из-за наибольшего кол-ва
+запусков GC, общее время работы сборщика самое продолжительное.
+
+CMS: показал наибольшее среднее время сборки GC, но самих сборок было гораздо меньше, чем у Parallel. Пропускная
+способность меньше, чем у G1, но больше, чем у Parallel.
+
+G1: Считаю G1 победителем -  наибольшая пропускная способность, меньше всего пауз, наименьшее среднее время паузы сборки
 мусора, меньше всего запусков GC.
-Parallel GC так и не свалился с OOM, но комп дико тормозил из-за постоянной работы GC
+
  */
 
 
