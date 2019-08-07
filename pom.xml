@@ -23,6 +23,7 @@
         <module>hw02-arrayList</module>
         <module>hw04-logging</module>
         <module>hw3-testingFramework</module>
+        <module>hw05-garbage-collection</module>
     </modules>
 
     <dependencyManagement>
