@@ -13,7 +13,7 @@ public class AtmDemo {
         cashCartridges.add(new CashCartridge(Banknote.ONE_THOUSAND, 100));
         cashCartridges.add(new CashCartridge(Banknote.FIVE_THOUSAND, 100));
 
-        Atm atm = new Atm(cashCartridges);
+        Atm atm = new AtmImpl(cashCartridges);
         System.out.println("Balance: " + atm.checkBalance());
 
         System.out.println("Deposit 1000");
