@@ -1,3 +1,7 @@
+import atm.Atm;
+import atm.CashMachine;
+import cartridge.Banknote;
+import cartridge.CashCartridge;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -6,7 +10,7 @@ import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AtmImplTest {
+class CashMachineTest {
     private Atm atm;
 
     @BeforeEach
@@ -16,7 +20,7 @@ class AtmImplTest {
         cashCartridges.add(new CashCartridge(Banknote.ONE_THOUSAND, 100));
         cashCartridges.add(new CashCartridge(Banknote.FIVE_THOUSAND, 100));
 
-        atm = new AtmImpl(cashCartridges);
+        atm = new CashMachine(cashCartridges);
     }
 
     @Test

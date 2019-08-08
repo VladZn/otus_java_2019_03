@@ -1,3 +1,5 @@
+package cartridge;
+
 /**
  * @author V. Zinchenko
  */

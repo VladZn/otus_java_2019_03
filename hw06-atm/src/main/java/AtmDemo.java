@@ -1,3 +1,8 @@
+import atm.Atm;
+import atm.CashMachine;
+import cartridge.Banknote;
+import cartridge.CashCartridge;
+
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,7 +18,7 @@ public class AtmDemo {
         cashCartridges.add(new CashCartridge(Banknote.ONE_THOUSAND, 100));
         cashCartridges.add(new CashCartridge(Banknote.FIVE_THOUSAND, 100));
 
-        Atm atm = new AtmImpl(cashCartridges);
+        Atm atm = new CashMachine(cashCartridges);
         System.out.println("Balance: " + atm.checkBalance());
 
         System.out.println("Deposit 1000");
@@ -37,7 +42,7 @@ public class AtmDemo {
         System.out.println("Balance: " + atm.checkBalance());
         System.out.println("-----------------------------");
 
-//        Deposit deposit = new Deposit(atm, Banknote.ONE_THOUSAND, 3);
+//        Deposit deposit = new Deposit(atm, cartridge.Banknote.ONE_THOUSAND, 3);
 ////        deposit.run();
 //        atm.execute(deposit);
     }

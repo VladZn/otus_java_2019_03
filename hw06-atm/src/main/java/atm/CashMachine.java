@@ -1,14 +1,19 @@
+package atm;
+
+import cartridge.Banknote;
+import cartridge.CashCartridge;
+
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
  * @author V. Zinchenko
  */
-public class AtmImpl implements Atm {
+public class CashMachine implements Atm {
     private final Set<CashCartridge> cashCartridges = new TreeSet<>();
     private int balance;
 
-    public AtmImpl(Set<CashCartridge> cartridges) {
+    public CashMachine(Set<CashCartridge> cartridges) {
         cashCartridges.addAll(cartridges);
     }
 
@@ -37,7 +42,7 @@ public class AtmImpl implements Atm {
     @Override
     public void deposit(Banknote banknote, int amount) {
         CashCartridge cashCartridge = getCartridgeByBanknote(banknote);
-        cashCartridge.setAmount(cashCartridge.getAmount() + amount);
+        cashCartridge.fill(amount);
     }
 
     private CashCartridge getCartridgeByBanknote(Banknote banknote) {
@@ -56,7 +61,7 @@ public class AtmImpl implements Atm {
             if ((withdraw = remainder / cashCartridge.getBanknote().getValue()) > 0) {
                 System.out.println("remainder = " + remainder);
                 System.out.printf("dispensing %dx%d note \n", withdraw, cashCartridge.getBanknote().getValue());
-                cashCartridge.setAmount(cashCartridge.getAmount() - withdraw);
+                cashCartridge.retrieve(withdraw);
                 remainder = remainder - cashCartridge.getBanknote().getValue() * withdraw;
             }
         }

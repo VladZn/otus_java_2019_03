@@ -1,9 +1,15 @@
+package cartridge;
+
+import exception.NotEnoughBanknotesException;
+
 /**
  * @author V. Zinchenko
  */
-public class CashCartridge implements Comparable<CashCartridge> {
+public class CashCartridge implements Cartridge, Comparable<CashCartridge> {
     private Banknote banknote;
     private int amount;
+
+    private static final String NOT_ENOUGH_MSG = "Not enough %d banknotes";
 
     public CashCartridge(Banknote banknote, int amount) {
         this.banknote = banknote;
@@ -12,10 +18,6 @@ public class CashCartridge implements Comparable<CashCartridge> {
 
     public Banknote getBanknote() {
         return banknote;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     public int getAmount() {
@@ -34,5 +36,25 @@ public class CashCartridge implements Comparable<CashCartridge> {
                 "banknote=" + banknote.getValue() +
                 ", amount=" + amount +
                 '}';
+    }
+
+    /**
+     * @param amount of banknotes
+     */
+    @Override
+    public void fill(int amount) {
+        this.amount += amount;
+    }
+
+    /**
+     * @param amount of banknotes
+     * @throws
+     */
+    @Override
+    public void retrieve(int amount) {
+        if (amount > this.amount) {
+            throw new NotEnoughBanknotesException(String.format(NOT_ENOUGH_MSG, banknote.getValue()));
+        }
+        this.amount -= amount;
     }
 }
