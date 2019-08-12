@@ -6,7 +6,7 @@ public class Sequence {
     private static final int SEQ_MAX = 10;
     private static final int SEQ_MIN = 1;
     private static final int ITERATIONS_LIMIT = 6;
-    private String currentThread = "1";
+    private String currentThreadId = "1";
 
     public static void main(String[] args) {
         Sequence sequence = new Sequence();
@@ -20,21 +20,22 @@ public class Sequence {
         int iteration = 1;
         while (iteration <= ITERATIONS_LIMIT) {
             synchronized (monitor) {
-                while (currentThread.equals(id)) {
-                    try {
+                try {
+                    while (currentThreadId.equals(id)) {
                         monitor.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
+                    System.out.println(Thread.currentThread().getName() + ": " + i);
+                    currentThreadId = id;
+                    i = i + delta;
+                    if (i == SEQ_MAX || i == SEQ_MIN) {
+                        delta = -delta;
+                        iteration++;
+                    }
+                    monitor.notifyAll();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
                 }
-                System.out.println(Thread.currentThread().getName() + ": " + i);
-                currentThread = id;
-                i = i + delta;
-                if (i == SEQ_MAX || i == SEQ_MIN) {
-                    delta = -delta;
-                    iteration++;
-                }
-                monitor.notifyAll();
             }
         }
         System.out.println(Thread.currentThread().getName() + ": " + i);
