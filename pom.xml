@@ -24,6 +24,7 @@
         <module>hw04-logging</module>
         <module>hw3-testingFramework</module>
         <module>hw05-garbage-collection</module>
+        <module>hw08-json-object-writer</module>
     </modules>
 
     <dependencyManagement>
