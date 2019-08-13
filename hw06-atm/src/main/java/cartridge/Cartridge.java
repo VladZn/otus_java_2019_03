@@ -1,6 +1,18 @@
 package cartridge;
 
-public interface Cartridge {
+public interface Cartridge extends Comparable<Cartridge> {
+
+    /**
+     * Get amount of banknotes
+     * @return amount of banknotes
+     */
+    int getAmount();
+
+    /**
+     * Get the banknote
+     * @return the banknote
+     */
+    Banknote getBanknote();
 
     /**
      *
@@ -14,4 +26,5 @@ public interface Cartridge {
      * @throws
      */
     void retrieve(int amount);
+
 }

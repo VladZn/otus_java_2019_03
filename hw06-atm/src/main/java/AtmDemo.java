@@ -1,6 +1,7 @@
 import atm.Atm;
 import atm.CashMachine;
 import cartridge.Banknote;
+import cartridge.Cartridge;
 import cartridge.CashCartridge;
 
 import java.util.Set;
@@ -13,7 +14,7 @@ public class AtmDemo {
 
     public static void main(String[] args) {
 
-        Set<CashCartridge> cashCartridges = new TreeSet<>();
+        Set<Cartridge> cashCartridges = new TreeSet<>();
         cashCartridges.add(new CashCartridge(Banknote.ONE_HUNDRED, 100));
         cashCartridges.add(new CashCartridge(Banknote.ONE_THOUSAND, 100));
         cashCartridges.add(new CashCartridge(Banknote.FIVE_THOUSAND, 100));
@@ -31,7 +32,7 @@ public class AtmDemo {
         System.out.println("Balance: " + atm.checkBalance());
         System.out.println("-----------------------------");
 
-        CashCartridge cartridge = new CashCartridge(Banknote.FIVE_HUNDRED, 10);
+        Cartridge cartridge = new CashCartridge(Banknote.FIVE_HUNDRED, 10);
         atm.loadCashCartridge(cartridge);
         System.out.println("Load a cash cartridge " + cartridge);
         System.out.println("Balance: " + atm.checkBalance());
@@ -42,8 +43,5 @@ public class AtmDemo {
         System.out.println("Balance: " + atm.checkBalance());
         System.out.println("-----------------------------");
 
-//        Deposit deposit = new Deposit(atm, cartridge.Banknote.ONE_THOUSAND, 3);
-////        deposit.run();
-//        atm.execute(deposit);
     }
 }

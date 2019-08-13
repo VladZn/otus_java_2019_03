@@ -1,6 +1,7 @@
 package atm;
 
 import cartridge.Banknote;
+import cartridge.Cartridge;
 import cartridge.CashCartridge;
 
 /**
@@ -14,15 +15,15 @@ public interface Atm {
      * @param cartridge to load.
      * @return {@code true} if successful.
      */
-    boolean loadCashCartridge(CashCartridge cartridge);
+    boolean loadCashCartridge(Cartridge cartridge);
 
     /**
      * Remove a cash cartridge from an ATM
      *
-     * @param cartridge
+     * @param banknote of a cartridge to remove
      * @return {@code true} if successful
      */
-    boolean removeCartridge(CashCartridge cartridge);
+    boolean removeCartridge(Banknote banknote);
 
     /**
      * Check an ATM's balance (cash in all cartridges)

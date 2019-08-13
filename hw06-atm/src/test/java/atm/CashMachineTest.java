@@ -1,6 +1,7 @@
-import atm.Atm;
-import atm.CashMachine;
+package atm;
+
 import cartridge.Banknote;
+import cartridge.Cartridge;
 import cartridge.CashCartridge;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ class CashMachineTest {
 
     @BeforeEach
     void setUp() {
-        Set<CashCartridge> cashCartridges = new TreeSet<>();
+        Set<Cartridge> cashCartridges = new TreeSet<>();
         cashCartridges.add(new CashCartridge(Banknote.ONE_HUNDRED, 100));
         cashCartridges.add(new CashCartridge(Banknote.ONE_THOUSAND, 100));
         cashCartridges.add(new CashCartridge(Banknote.FIVE_THOUSAND, 100));
@@ -30,10 +31,15 @@ class CashMachineTest {
 
     @Test
     void loadCashCartridge() {
+        CashCartridge cartridge = new CashCartridge(Banknote.FIVE_HUNDRED, 10);
+        atm.loadCashCartridge(cartridge);
+        assertEquals(615_000, atm.checkBalance());
     }
 
     @Test
     void removeCartridge() {
+        assertTrue(atm.removeCartridge(Banknote.ONE_HUNDRED));
+        assertEquals(600_000, atm.checkBalance());
     }
 
     @Test

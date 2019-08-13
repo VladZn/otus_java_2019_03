@@ -1,7 +1,9 @@
 package atm;
 
 import cartridge.Banknote;
+import cartridge.Cartridge;
 import cartridge.CashCartridge;
+import exception.CartridgeNotFoundException;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -10,10 +12,11 @@ import java.util.TreeSet;
  * @author V. Zinchenko
  */
 public class CashMachine implements Atm {
-    private final Set<CashCartridge> cashCartridges = new TreeSet<>();
+    private static final String NOT_FOUND_MSG = "Could not find any cartridge for %d banknotes";
+    private final Set<Cartridge> cashCartridges = new TreeSet<>();
     private int balance;
 
-    public CashMachine(Set<CashCartridge> cartridges) {
+    public CashMachine(Set<Cartridge> cartridges) {
         cashCartridges.addAll(cartridges);
     }
 
@@ -30,34 +33,33 @@ public class CashMachine implements Atm {
     }
 
     @Override
-    public boolean loadCashCartridge(CashCartridge cartridge) {
+    public boolean loadCashCartridge(Cartridge cartridge) {
         return cashCartridges.add(cartridge);
     }
 
     @Override
-    public boolean removeCartridge(CashCartridge cashCartridge) {
-        return cashCartridges.remove(cashCartridge);
+    public boolean removeCartridge(Banknote banknote) {
+        return cashCartridges.removeIf(cartridge -> cartridge.getBanknote().equals(banknote));
     }
 
     @Override
     public void deposit(Banknote banknote, int amount) {
-        CashCartridge cashCartridge = getCartridgeByBanknote(banknote);
+        Cartridge cashCartridge = getCartridgeByBanknote(banknote);
         cashCartridge.fill(amount);
     }
 
-    private CashCartridge getCartridgeByBanknote(Banknote banknote) {
+    private Cartridge getCartridgeByBanknote(Banknote banknote) {
         return cashCartridges.stream()
                 .filter(cst -> cst.getBanknote().equals(banknote))
                 .findAny()
-                .orElseGet(() -> new CashCartridge(banknote, 0));
-//                .orElseThrow();
+                .orElseThrow(() -> new CartridgeNotFoundException(String.format(NOT_FOUND_MSG, banknote)));
     }
 
     @Override
     public void withdraw(int sum) {
         int remainder = sum;
         int withdraw = 0;
-        for (CashCartridge cashCartridge : cashCartridges) {
+        for (Cartridge cashCartridge : cashCartridges) {
             if ((withdraw = remainder / cashCartridge.getBanknote().getValue()) > 0) {
                 System.out.println("remainder = " + remainder);
                 System.out.printf("dispensing %dx%d note \n", withdraw, cashCartridge.getBanknote().getValue());
