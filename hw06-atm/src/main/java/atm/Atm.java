@@ -31,7 +31,16 @@ public interface Atm {
      */
     int checkBalance();
 
+    /**
+     * Performs cash withdrawal
+     * @param sum
+     */
     void withdraw(int sum);
 
+    /**
+     * Performs cash deposit
+     * @param banknote
+     * @param amount of banknotes
+     */
     void deposit(Banknote banknote, int amount);
 }
