@@ -25,6 +25,7 @@
         <module>hw3-testingFramework</module>
         <module>hw05-garbage-collection</module>
         <module>hw06-atm</module>
+        <module>hw14-sequence-multithreading</module>
     </modules>
 
     <dependencyManagement>
