@@ -26,6 +26,7 @@
         <module>hw05-garbage-collection</module>
         <module>hw06-atm</module>
         <module>hw14-sequence-multithreading</module>
+        <module>hw07-atm-department</module>
     </modules>
 
     <dependencyManagement>
